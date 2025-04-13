@@ -118,16 +118,20 @@
           body: JSON.stringify({ username, password })
         });
       
-        const result = await response.json();
-        document.getElementById("message").textContent = result.message;
-      
-        if (response.ok && result.success) {
-          // Redirection ou stockage de token si besoin
-          sessionStorage.setItem("username", utilisateur);
-          window.location.href = "dashboard.html";
+        const data = await response.json();
+
+        if (data.success) {
+            sessionStorage.setItem("username", username); // stocke le nom pour dashboard
+            window.location.href = "dashboard.html"; // redirection ici
+        } else {
+            alert("Échec de la connexion : " + data.message);
         }
-      });
-    </script>
+        } catch (err) {
+        console.error("Erreur :", err);
+        alert("Erreur lors de la connexion.");
+      }
+    });
+</script>
     
     
     <a class="back" href=".\index.html">← Revenir à l’accueil</a>
