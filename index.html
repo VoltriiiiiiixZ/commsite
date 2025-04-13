@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferme B. | Commande</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://files.catbox.moe/j3xjse.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.26);
+            color: white;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .navbar .title {
+            font-size: 26px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .login-btn {
+            background: linear-gradient(145deg, #bb864a, #c27230);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 18px;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-container img {
+            height: 60px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 120px auto 40px;
+            background-color: rgba(66, 43, 13, 0.205);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 1s ease-in-out;
+            color: #f5deb3;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo-container">
+            <img src="https://files.catbox.moe/0kvf7v.png" alt="Logo Ferme Biogood">
+            <span class="title">Ferme Biogood</span>
+        </div>
+    </div>
+
+    <div style="margin-top: 180px; text-align: center;">
+        <a href="./loggin.html" class="login-btn">Connexion</a>
+    </div>
+</body>
+</html>
