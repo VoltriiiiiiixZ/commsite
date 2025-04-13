@@ -171,7 +171,7 @@
       <h3>📦 Cartons</h3>
       <input type="number" id="restock-Cartons" class="restock-input" placeholder="Nombre de cartons (max 200)" min="1" max="200">
     </div>
-
+    <p id="notif-message" style="font-weight: bold; text-align: center; color: #7d5a3c;"></p>
     <button class="cta-button" onclick="handleSubmit()">Réapprovisionner</button>
 
     <footer>
@@ -180,53 +180,63 @@
   </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const restockerName = sessionStorage.getItem("username");
-            if (!restockerName) {
-                alert("Nom d'utilisateur manquant. Redirection vers la page de connexion.");
-                window.location.href = "loggin.html"; // adapte ce nom si nécessaire
-            } else {
-                document.getElementById("restocker-display").textContent = restockerName;
-            }
-        });
-        
-        async function handleSubmit() {
-            const restocker = sessionStorage.getItem("username");
-            if (!restocker) {
-                alert("Nom d'utilisateur introuvable.");
-                return;
-            }
-        
-            const input = document.getElementById("restock-Cartons");
-            const qty = parseInt(input.value);
-        
-            if (isNaN(qty) || qty <= 0 || qty > 200) {
-                alert("Veuillez saisir une quantité valide entre 1 et 200.");
-                return;
-            }
-        
-            const now = new Date();
-            const heure = now.toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
-        
-            const discordWebhook = "https://discord.com/api/webhooks/1361013310476124221/ZOy_BfHnD6Ss4faji9CeNqELgjGpHIPirxUARbnCuANtyG80bCfIOF4cvQIUiyYfCmCo";
-        
-            try {
-                await fetch(discordWebhook, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        content: `📦 Réapprovisionnement par ${restocker}\n🕒 ${heure}\n\nCartons ➜ ${qty}`
-                    })
-                });
-        
-                alert("Les cartons ont bien été envoyés !");
-                input.value = "";
-            } catch (err) {
-                alert("Erreur lors de l'envoi.");
-                console.error(err);
-            }
-        }
-    </script>
+      document.addEventListener("DOMContentLoaded", () => {
+          const restockerName = sessionStorage.getItem("username");
+          if (!restockerName) {
+              document.getElementById("notif-message").style.color = "tomato";
+              document.getElementById("notif-message").textContent = "Nom d'utilisateur manquant. Redirection...";
+              setTimeout(() => {
+                  window.location.href = "loggin.html";
+              }, 1500);
+          } else {
+              document.getElementById("restocker-display").textContent = restockerName;
+          }
+      });
+  
+      async function handleSubmit() {
+          const restocker = sessionStorage.getItem("username");
+          const notif = document.getElementById("notif-message");
+  
+          if (!restocker) {
+              notif.style.color = "tomato";
+              notif.textContent = "Nom d'utilisateur introuvable.";
+              return;
+          }
+  
+          const input = document.getElementById("restock-Cartons");
+          const qty = parseInt(input.value);
+  
+          if (isNaN(qty) || qty <= 0 || qty > 200) {
+              notif.style.color = "tomato";
+              notif.textContent = "Veuillez saisir une quantité valide entre 1 et 200.";
+              return;
+          }
+  
+          const now = new Date();
+          const heure = now.toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
+  
+          const discordWebhook = "https://discord.com/api/webhooks/1361013310476124221/ZOy_BfHnD6Ss4faji9CeNqELgjGpHIPirxUARbnCuANtyG80bCfIOF4cvQIUiyYfCmCo";
+  
+          try {
+              await fetch(discordWebhook, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                      content: `📦 Réapprovisionnement par ${restocker}\n🕒 ${heure}\n\nCartons ➜ ${qty}`
+                  })
+              });
+  
+              notif.style.color = "green";
+              notif.textContent = "✅ Les cartons ont bien été envoyés !";
+              input.value = "";
+          } catch (err) {
+              notif.style.color = "tomato";
+              notif.textContent = "❌ Erreur lors de l'envoi.";
+              console.error(err);
+          }
+      }
+  </script>
+
     
 </body>
 </html>
