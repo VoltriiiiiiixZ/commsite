@@ -123,6 +123,7 @@
       
         if (response.ok && result.success) {
           // Redirection ou stockage de token si besoin
+          sessionStorage.setItem("username", utilisateur);
           window.location.href = "dashboard.html";
         }
       });
