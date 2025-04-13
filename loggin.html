@@ -86,12 +86,18 @@
     .back:hover {
       color: white;
     }
+
+    #message {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="navbar">
     <div class="title">Ferme Biogood</div>
-    <a href=".\index.html">← Retour</a>
+    <a href="./index.html">← Retour</a>
   </div>
 
   <div class="container">
@@ -104,47 +110,37 @@
     
     <p id="message"></p>
     
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("loginForm");
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
-      
-          const username = document.getElementById("username").value;
-          const password = document.getElementById("password").value;
-      
-          try {
-            const response = await fetch("https://maybe-o39r.onrender.com/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({ username, password })
-            });
-      
-            const data = await response.json();
-      
-            if (data.success) {
-              sessionStorage.setItem("username", username);
-              window.location.href = "dashboard.html";
-            } else {
-              document.getElementById("message").innerText = "❌ " + data.message;
-            }
-          } catch (err) {
-            console.error("Erreur :", err);
-            document.getElementById("message").innerText = "❌ Erreur lors de la connexion.";
-          }
-        });
-      });
-      </script>
-
-
-
-
-    
-    
-    <a class="back" href=".\index.html">← Revenir à l’accueil</a>
+    <a class="back" href="./index.html">← Revenir à l’accueil</a>
   </div>
+
+  <script>
+    const users = {
+      "diego": "1999",
+      "aaron": "1999"
+    };
+
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value.toLowerCase();
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+
+      if (users[username] && users[username] === password) {
+        message.style.color = "#c1f2a7";
+        message.textContent = "✅ Connexion réussie. Redirection...";
+
+        // ✅ On stocke l'utilisateur dans sessionStorage
+        sessionStorage.setItem("username", username);
+
+        setTimeout(() => {
+            window.location.href = "dashboard.html"; // ou "commande.html"
+        }, 1500);
+        }
+        else {
+        message.style.color = "#ffd1d1";
+        message.textContent = "❌ Identifiant ou mot de passe incorrect.";
+      }
+    });
+  </script>
 </body>
 </html>
-
