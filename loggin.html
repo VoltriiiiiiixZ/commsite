@@ -105,43 +105,39 @@
     <p id="message"></p>
     
     <script>
-      document.getElementById("loginForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        const messageElement = document.getElementById("message");
-    
-        try {
-          const response = await fetch("https://maybe-o39r.onrender.com/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ username, password })
-          });
-    
-          const data = await response.json();
-    
-          if (data.success) {
-            messageElement.style.color = "lightgreen";
-            messageElement.textContent = "Connexion réussie ! Redirection...";
-            sessionStorage.setItem("username", username);
-    
-            // Redirection avec petit délai pour voir le message
-            setTimeout(() => {
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("loginForm");
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+      
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+      
+          try {
+            const response = await fetch("https://maybe-o39r.onrender.com/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ username, password })
+            });
+      
+            const data = await response.json();
+      
+            if (data.success) {
+              sessionStorage.setItem("username", username);
               window.location.href = "dashboard.html";
-            }, 1000);
-          } else {
-            messageElement.style.color = "tomato";
-            messageElement.textContent = data.message;
+            } else {
+              document.getElementById("message").innerText = "❌ " + data.message;
+            }
+          } catch (err) {
+            console.error("Erreur :", err);
+            document.getElementById("message").innerText = "❌ Erreur lors de la connexion.";
           }
-        } catch (err) {
-          console.error("Erreur :", err);
-          messageElement.style.color = "tomato";
-          messageElement.textContent = "Erreur lors de la connexion.";
-        }
+        });
       });
-    </script>
+      </script>
+
 
 
 
