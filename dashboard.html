@@ -215,15 +215,12 @@
           const now = new Date();
           const heure = now.toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
   
-          const discordWebhook = "https://discord.com/api/webhooks/1373774152603009094/u3zlLD5HqwZL6zdDCeAeWshtAOenxTkfsyfOdn1OHL2MATWKMM1jqhxfkEk4YzF7tVDY/github";
-  
+          const flaskAPI = "https://ferme-biogood-omega.vercel.app/api/restock";
           try {
-              await fetch(discordWebhook, {
+              await fetch(flaskAPI, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                      content: `📦 Réapprovisionnement par ${restocker}\n🕒 ${heure}\n\nCartons ➜ ${qty}`
-                  })
+                  body: JSON.stringify({ restocker, qty, heure })
               });
   
               notif.style.color = "green";
